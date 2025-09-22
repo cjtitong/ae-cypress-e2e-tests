@@ -11,29 +11,46 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      # 1️⃣ Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Setup Node.js 16
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 16
 
+      # 3️⃣ Cache node modules
       - name: Cache node modules
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-18-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-16-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-18-
+            ${{ runner.os }}-node-16-
 
+      # 4️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # Run Cypress with Mochawesome reports
-      - name: Run Cypress tests (Mochawesome)
-        run: npm run test:ci
+      # 5️⃣ Clean Mochawesome reports
+      - name: Clean Mochawesome reports
+        run: npm run clean:reports || true
 
+      # 6️⃣ Run Cypress tests headless in Chrome
+      - name: Run Cypress tests (headless)
+        run: npx cypress run --headless --browser chrome
+
+      # 7️⃣ Merge Mochawesome JSON reports
+      - name: Merge Mochawesome JSON reports
+        run: npx mochawesome-merge results/mochawesome/*.json -o results/mochawesome/mochawesome.json
+
+      # 8️⃣ Generate Mochawesome HTML report
+      - name: Generate Mochawesome HTML report
+        run: npx mochawesome-report-generator results/mochawesome/mochawesome.json -o results/mochawesome/html
+
+      # 9️⃣ Upload artifacts
       - name: Upload Mochawesome HTML report
         if: always()
         uses: actions/upload-artifact@v4

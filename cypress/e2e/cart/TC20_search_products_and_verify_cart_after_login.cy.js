@@ -52,3 +52,4 @@ describe("TC20 - Search Products and Verify Cart After Login", () => {
     cart.verifySearchedProductsInCart();
   });
 });
+

@@ -31,7 +31,7 @@ jobs:
         continue-on-error: false # Set to true if you want Azure trigger even on failure
 
       - name: Upload Cypress artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-artifacts
           path: |
@@ -48,7 +48,7 @@ jobs:
         env:
           AZURE_ORG_URL: https://dev.azure.com/cjtitong868
           AZURE_PROJECT: ae-cypress-e2e-tests
-          AZURE_PIPELINE_ID: 2 
+          AZURE_PIPELINE_ID: 2
           AZURE_PAT: ${{ secrets.AZURE_DEVOPS_PAT }}
         run: |
           echo "Triggering Azure DevOps pipeline..."

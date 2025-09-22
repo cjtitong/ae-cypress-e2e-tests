@@ -34,23 +34,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 5️⃣ Clean Mochawesome reports
-      - name: Clean Mochawesome reports
-        run: npm run clean:reports || true
+      # 5️⃣ Run Cypress CI tests (headless + reports)
+      - name: Run Cypress CI tests
+        run: npm run test:ci
 
-      # 6️⃣ Run Cypress tests headless in Chrome
-      - name: Run Cypress tests (headless)
-        run: npx cypress run --headless --browser chrome
-
-      # 7️⃣ Merge Mochawesome JSON reports
-      - name: Merge Mochawesome JSON reports
-        run: npx mochawesome-merge results/mochawesome/*.json -o results/mochawesome/mochawesome.json
-
-      # 8️⃣ Generate Mochawesome HTML report
-      - name: Generate Mochawesome HTML report
-        run: npx mochawesome-report-generator results/mochawesome/mochawesome.json -o results/mochawesome/html
-
-      # 9️⃣ Upload artifacts
+      # 6️⃣ Upload artifacts
       - name: Upload Mochawesome HTML report
         if: always()
         uses: actions/upload-artifact@v4

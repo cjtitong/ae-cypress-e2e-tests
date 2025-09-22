@@ -3,26 +3,48 @@ trigger:
     include:
       - main
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 variables:
   CYPRESS_baseUrl: 'https://automationexercise.com'
 
-steps:
-  - checkout: self
+jobs:
+  - job: SelfHosted
+    displayName: "Run on self-hosted agent (AgentToken)"
+    pool:
+      name: Default   # Pool where AgentToken is registered
+      demands:
+        - agent.name -equals AgentToken
+    steps:
+      - checkout: self
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+        displayName: 'Setup Node.js'
+      - script: |
+          npm ci
+          npm run test:ci
+        displayName: 'Install dependencies & run Cypress tests'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: 'results'
+          artifactName: 'cypress-results'
 
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '18.x'
-    displayName: 'Setup Node.js'
-
-  - script: |
-      npm ci
-      npm run test:ci
-    displayName: 'Install dependencies & run Cypress tests'
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathToPublish: 'results'
-      artifactName: 'cypress-results'
+  - job: FallbackToHosted
+    displayName: "Run on Microsoft-hosted (ubuntu-latest) if self-hosted fails"
+    dependsOn: SelfHosted
+    condition: failed()   # only runs if SelfHosted fails
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - checkout: self
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+        displayName: 'Setup Node.js (Fallback)'
+      - script: |
+          npm ci
+          npm run test:ci
+        displayName: 'Install dependencies & run Cypress tests (Fallback)'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: 'results'
+          artifactName: 'cypress-results'

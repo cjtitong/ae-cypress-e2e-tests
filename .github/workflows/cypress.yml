@@ -1,75 +1,59 @@
-name: Cypress Tests
+name: Cypress Tests + Trigger Azure Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-  cypress-run:
+  cypress-tests:
     runs-on: ubuntu-latest
+    env:
+      CYPRESS_baseUrl: 'https://automationexercise.com'
 
     steps:
-      # 1️⃣ Checkout repo
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      # 2️⃣ Setup Node.js 16
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
-      # 3️⃣ Cache node modules
-      - name: Cache node modules
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-16-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-16-
-
-      # 4️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # 5️⃣ Run Cypress CI tests (headless + reports)
-      - name: Run Cypress CI tests
+      - name: Run Cypress tests
         run: npm run test:ci
+        continue-on-error: false # Set to true if you want Azure trigger even on failure
 
-      # 6️⃣ Upload artifacts
-      - name: Upload Mochawesome HTML report
-        if: always()
-        uses: actions/upload-artifact@v4
+      - name: Upload Cypress artifacts
+        uses: actions/upload-artifact@v3
         with:
-          name: mochawesome-html-report
-          path: results/mochawesome/html/*.html
+          name: cypress-artifacts
+          path: |
+            cypress/screenshots
+            cypress/videos
+            results/mochawesome/html
+            results/*.xml
 
-      - name: Upload Mochawesome JSON reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: mochawesome-json
-          path: results/mochawesome/*.json
-
-      - name: Upload Cypress screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-
-      - name: Upload Cypress videos
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-videos
-          path: cypress/videos
-
-      - name: Upload downloads (e.g., invoices)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-downloads
-          path: cypress/downloads
+  trigger-azure-pipeline:
+    needs: cypress-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Azure DevOps Pipeline via PAT
+        env:
+          AZURE_ORG_URL: https://dev.azure.com/cjtitong868
+          AZURE_PROJECT: ae-cypress-e2e-tests
+          AZURE_PIPELINE_ID: 2 
+          AZURE_PAT: ${{ secrets.AZURE_DEVOPS_PAT }}
+        run: |
+          echo "Triggering Azure DevOps pipeline..."
+          curl -s -u :$AZURE_PAT \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -d "{\"resources\": {\"repositories\": {\"self\": {\"refName\": \"refs/heads/main\"}}}}" \
+            $AZURE_ORG_URL/$AZURE_PROJECT/_apis/pipelines/$AZURE_PIPELINE_ID/runs?api-version=7.1-preview.1

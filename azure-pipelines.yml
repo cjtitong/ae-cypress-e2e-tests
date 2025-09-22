@@ -1,59 +1,28 @@
-name: Cypress Tests + Trigger Azure Pipeline
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
+trigger:
+  branches:
+    include:
       - main
 
-jobs:
-  cypress-tests:
-    runs-on: ubuntu-latest
+pool:
+  vmImage: 'ubuntu-latest'
 
-    env:
-      CYPRESS_baseUrl: 'https://automationexercise.com'
+variables:
+  CYPRESS_baseUrl: 'https://automationexercise.com'
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+steps:
+  - checkout: self
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+    displayName: 'Setup Node.js'
 
-      - name: Install dependencies
-        run: npm ci
+  - script: |
+      npm ci
+      npm run test:ci
+    displayName: 'Install dependencies & run Cypress tests'
 
-      - name: Run Cypress tests
-        run: npm run test:ci
-
-      - name: Upload Cypress artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress-artifacts
-          path: |
-            cypress/screenshots
-            cypress/videos
-            results/mochawesome/html
-            results/*.xml
-
-  trigger-azure-pipeline:
-    needs: cypress-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Azure DevOps Pipeline via PAT
-        env:
-          AZURE_ORG_URL: https://dev.azure.com/cjtitong868
-          AZURE_PROJECT: ae-cypress-e2e-tests
-          AZURE_PIPELINE_ID: 1  # Replace with your actual pipeline ID
-          AZURE_PAT: ${{ secrets.AZURE_DEVOPS_PAT }}
-        run: |
-          echo "Triggering Azure DevOps pipeline..."
-          curl -u :$AZURE_PAT \
-            -X POST \
-            -H "Content-Type: application/json" \
-            -d "{\"resources\": {\"repositories\": {\"self\": {\"refName\": \"refs/heads/main\"}}}}" \
-            $AZURE_ORG_URL/$AZURE_PROJECT/_apis/pipelines/$AZURE_PIPELINE_ID/runs?api-version=7.1-preview.1
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: 'results'
+      artifactName: 'cypress-results'

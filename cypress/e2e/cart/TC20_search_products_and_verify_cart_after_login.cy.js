@@ -11,7 +11,7 @@ describe("TC20 - Search Products and Verify Cart After Login", () => {
   const auth = new AuthPage();
 
   const user = {
-    email: "testuser@example.com",   // 🔧 must exist in AE
+    email: "testuser@example.com",   // 
     password: "password123",
   };
 

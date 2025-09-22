@@ -1,4 +1,4 @@
-# Full Regression Cypress Project
+# AE Cypress E2E Suite
 Automation Exercise Cypress Test Suite
 
 Table of Contents

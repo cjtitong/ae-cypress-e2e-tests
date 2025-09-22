@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-21T21:31:37.613Z",
+    "end": "2025-09-21T21:31:44.170Z",
+    "duration": 6557,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "b55a8b29-89aa-4f2e-a508-75a7628530e6",
+      "title": "",
+      "fullFile": "cypress\\e2e\\auth\\TC03_login_incorrect.cy.js",
+      "file": "cypress\\e2e\\auth\\TC03_login_incorrect.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b3ad2cee-56be-4e67-9043-dc90aa5dc654",
+          "title": "TC03 - Login User with incorrect credentials",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Login with invalid email and password",
+              "fullTitle": "TC03 - Login User with incorrect credentials Login with invalid email and password",
+              "timedOut": null,
+              "duration": 6515,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const home = new _HomePage.default();\nconst auth = new _AuthPage.default();\n// --- Generate fake invalid credentials ---\nconst invalidEmail = _faker.faker.internet.email();\nconst invalidPassword = _faker.faker.internet.password();\n// Step 1: Visit home page\ncy.visit('/');\nhome.getMainBanner().should('be.visible');\n// Step 2: Go to Signup/Login\nhome.getSignupLoginButton().click();\n// Step 3: Verify login form\nauth.getLoginTitle().should('be.visible');\n// Step 4: Fill invalid credentials\nauth.fillLogin(invalidEmail, invalidPassword);\nauth.submitLogin();\n// Step 5: Verify error message\ncy.contains('Your email or password is incorrect!', {\n  timeout: 10000\n}).should('be.visible');",
+              "err": {},
+              "uuid": "aaebff8c-9671-41dc-a2c7-3d04015e478b",
+              "parentUUID": "b3ad2cee-56be-4e67-9043-dc90aa5dc654",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "aaebff8c-9671-41dc-a2c7-3d04015e478b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 6515,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "results/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.0"
+    }
+  }
+}

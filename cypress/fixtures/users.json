@@ -1,0 +1,11 @@
+{
+  "existingUser": {
+    "name": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "password": "Password123!",
+    "address": "123 Main St",
+    "city": "Metro City",
+    "state": "Stateville",
+    "zipcode": "12345"
+  }
+}

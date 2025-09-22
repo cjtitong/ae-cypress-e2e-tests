@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-21T21:33:36.831Z",
+    "end": "2025-09-21T21:34:05.420Z",
+    "duration": 28589,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "6a565cf9-d2bc-42f0-a146-5a79bf054da9",
+      "title": "",
+      "fullFile": "cypress\\e2e\\checkout\\TC16_login_before_checkout.cy.js",
+      "file": "cypress\\e2e\\checkout\\TC16_login_before_checkout.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "d17c9fd3-6c58-458d-8dd4-e4ddf72c3222",
+          "title": "TC16 - Place Order: Login before Checkout",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should login before checkout and place order",
+              "fullTitle": "TC16 - Place Order: Login before Checkout Should login before checkout and place order",
+              "timedOut": null,
+              "duration": 28532,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const home = new _HomePage.default();\nconst products = new _ProductsPage.default();\nconst cart = new _CartPage.default();\nconst auth = new _AuthPage.default();\nconst account = new _AccountPage.default();\nconst checkout = new _CheckoutPage.default();\nconst payment = new _PaymentPage.default();\n// ✅ Generate a random user for registration\nconst user = {\n  title: \"Mr\",\n  name: _faker.faker.person.firstName(),\n  email: _faker.faker.internet.email(),\n  password: \"Test@1234\",\n  day: \"10\",\n  month: \"7\",\n  year: \"1992\",\n  firstName: _faker.faker.person.firstName(),\n  lastName: _faker.faker.person.lastName(),\n  company: \"Global Tech\",\n  address1: \"456 Example Ave\",\n  address2: \"Floor 3\",\n  country: \"Canada\",\n  state: \"Ontario\",\n  city: \"Toronto\",\n  zipcode: \"2000\",\n  mobileNumber: \"09171234568\",\n  newsletter: false,\n  offers: false\n};\n// Step 1: Visit home page\ncy.visit(\"/\");\nhome.getMainBanner().should(\"be.visible\");\n// Step 2–6: First register the user\nhome.getSignupLoginButton().click();\nauth.fillSignupNameEmail(user.name, user.email);\nauth.submitSignup();\nauth.fillAccountInformation(user);\nauth.submitCreateAccount();\nauth.getAccountCreatedTitle().should(\"be.visible\");\nauth.clickContinueAfterAccountAction();\naccount.getLoggedInAs(user.name).should(\"be.visible\");\n// Step 7: Logout\naccount.getLogoutButton().click();\nhome.getSignupLoginButton().should(\"be.visible\");\n// Step 8: Login with registered user\nhome.getSignupLoginButton().click();\nauth.fillLoginCredentials(user.email, user.password);\nauth.submitLogin();\naccount.getLoggedInAs(user.name).should(\"be.visible\");\n// Step 9–11: Add product & checkout\nhome.getProductsButton().click();\nproducts.verifyAllProductsPage();\ncart.addProductToCartByIndex(0); // ✅ handles modal → cart\ncart.verifyCartPageVisible();\ncart.clickProceedToCheckout();\n// Step 12: Verify checkout details\ncheckout.verifyAddressDetails(user);\ncheckout.verifyReviewOrder();\n// Step 13–15: Place order\ncheckout.fillOrderComment(\"Please process quickly\");\ncheckout.clickPlaceOrder();\npayment.fillPaymentDetails({\n  name: `${user.firstName} ${user.lastName}`,\n  cardNumber: \"4111111111111111\",\n  cvc: \"123\",\n  expiryMonth: \"11\",\n  expiryYear: \"2030\"\n});\npayment.submitPayment();\npayment.verifyPaymentSuccess();\n// Step 16–17: Delete account after test\naccount.getDeleteAccountButton().click();\naccount.getAccountDeletedTitle().should(\"be.visible\");\nauth.clickContinueAfterAccountAction();",
+              "err": {},
+              "uuid": "6217881e-567f-44dd-890b-879c158e42a1",
+              "parentUUID": "d17c9fd3-6c58-458d-8dd4-e4ddf72c3222",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "6217881e-567f-44dd-890b-879c158e42a1"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 28532,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "results/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.0"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+name: Cypress Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-18-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-18-
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Run Cypress with Mochawesome reports
+      - name: Run Cypress tests (Mochawesome)
+        run: npm run test:ci
+
+      - name: Upload Mochawesome HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-html-report
+          path: results/mochawesome/html/*.html
+
+      - name: Upload Mochawesome JSON reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-json
+          path: results/mochawesome/*.json
+
+      - name: Upload Cypress screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - name: Upload Cypress videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos
+
+      - name: Upload downloads (e.g., invoices)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-downloads
+          path: cypress/downloads

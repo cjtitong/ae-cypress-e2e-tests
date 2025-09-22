@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-21T21:37:34.939Z",
+    "end": "2025-09-21T21:37:41.633Z",
+    "duration": 6694,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "e2cc328b-a518-4623-b94e-f5ee3afe599f",
+      "title": "",
+      "fullFile": "cypress\\e2e\\cart\\TC17_remove_products_from_cart.cy.js",
+      "file": "cypress\\e2e\\cart\\TC17_remove_products_from_cart.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "966c6d97-dac8-4e08-b317-ab4751f3c59d",
+          "title": "TC17 - Remove Products from Cart",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Add products and remove them from cart",
+              "fullTitle": "TC17 - Remove Products from Cart Add products and remove them from cart",
+              "timedOut": null,
+              "duration": 6652,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Step 1: Visit home\ncy.visit(\"/\");\nhome.getMainBanner().should(\"be.visible\");\n// Step 2: Go to Products\nhome.getProductsButton().click();\nproducts.verifyAllProductsPage();\n// Step 3: Add two products\nproducts.addProductToCartByIndex(0);\nproducts.clickContinueShopping();\nproducts.addProductToCartByIndex(1);\nproducts.clickViewCart();\n// Step 4: Verify both products present\ncart.verifyCartPageVisible();\ncart.verifyProductsInCart([0, 1]);\n// Step 5: Remove first product\ncart.removeProductByIndex(0);\n// Step 6: Verify cart is updated (1 product left)\ncy.get(cart.cartRows).should(\"have.length\", 1);\n// Step 7: Remove second product\ncart.removeProductByIndex(0);\n// Step 8: Verify cart is empty\ncart.verifyProductRemoved();",
+              "err": {},
+              "uuid": "8536a370-e852-4cfd-81b2-6f2c321f607f",
+              "parentUUID": "966c6d97-dac8-4e08-b317-ab4751f3c59d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "8536a370-e852-4cfd-81b2-6f2c321f607f"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 6652,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "results/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.0"
+    }
+  }
+}

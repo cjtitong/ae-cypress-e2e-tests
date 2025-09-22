@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-21T21:37:44.221Z",
+    "end": "2025-09-21T21:37:59.327Z",
+    "duration": 15106,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "a2ba7aa5-9623-42b0-8e10-cc8164fc1da4",
+      "title": "",
+      "fullFile": "cypress\\e2e\\cart\\TC20_search_products_and_verify_cart_after_login.cy.js",
+      "file": "cypress\\e2e\\cart\\TC20_search_products_and_verify_cart_after_login.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "9df1dd92-3a35-429e-8078-d2c04206bd02",
+          "title": "TC20 - Search Products and Verify Cart After Login",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Search, add to cart, and verify persistence after login",
+              "fullTitle": "TC20 - Search Products and Verify Cart After Login Search, add to cart, and verify persistence after login",
+              "timedOut": null,
+              "duration": 15050,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Step 1: Visit site\ncy.visit(\"/\");\n// Step 2: Go to Products\nhome.getProductsButton().click();\n// Step 3: Verify ALL PRODUCTS page\nproducts.verifyAllProductsPage();\n// Step 4: Search for product(s)\nconst searchKeyword = \"dress\"; // 🔧 guaranteed match\nproducts.searchProduct(searchKeyword);\n// Step 5: Verify search results\nproducts.verifySearchedProductsVisible();\n// Step 6: Add all search results to cart\nproducts.addAllSearchResultsToCart();\n// Step 7: Verify products visible in Cart\ncart.verifyCartPageVisible();\ncart.verifySearchedProductsInCart();\n// Step 8: Login\nhome.getSignupLoginButton().click();\nauth.fillLogin(user.email, user.password);\nauth.submitLogin();\n// Step 9: Go to Cart again\nhome.getCartButton().click();\n// Step 10: Verify products still in cart\ncart.verifyCartPageVisible();\ncart.verifySearchedProductsInCart();",
+              "err": {},
+              "uuid": "459ed507-2a4f-46c6-85b9-982d6170e600",
+              "parentUUID": "9df1dd92-3a35-429e-8078-d2c04206bd02",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "459ed507-2a4f-46c6-85b9-982d6170e600"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 15050,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "results/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.0"
+    }
+  }
+}

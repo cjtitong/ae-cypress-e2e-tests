@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-21T21:34:11.762Z",
+    "end": "2025-09-21T21:34:32.150Z",
+    "duration": 20388,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "52758694-e28e-4e17-9b6c-fbc23ed50462",
+      "title": "",
+      "fullFile": "cypress\\e2e\\checkout\\TC23_verify_address_details.cy.js",
+      "file": "cypress\\e2e\\checkout\\TC23_verify_address_details.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "75c3dd54-01be-4352-a750-db0a2b5a87db",
+          "title": "TC23 - Verify Address Details in Checkout Page",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should verify delivery and billing address match registration details",
+              "fullTitle": "TC23 - Verify Address Details in Checkout Page Should verify delivery and billing address match registration details",
+              "timedOut": null,
+              "duration": 20345,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const home = new _HomePage.default();\nconst products = new _ProductsPage.default();\nconst cart = new _CartPage.default();\nconst auth = new _AuthPage.default();\nconst account = new _AccountPage.default();\nconst checkout = new _CheckoutPage.default();\nconst user = {\n  email: _faker.faker.internet.email(),\n  password: \"Test@1234\",\n  day: \"12\",\n  month: \"9\",\n  year: \"1995\",\n  firstName: _faker.faker.person.firstName(),\n  lastName: _faker.faker.person.lastName(),\n  company: \"AddrCo\",\n  address1: \"88 Test Lane\",\n  address2: \"Suite 88\",\n  country: \"Canada\",\n  state: \"Quebec\",\n  city: \"Montreal\",\n  zipcode: \"7000\",\n  mobileNumber: \"09172223333\"\n};\nuser.fullName = `${user.firstName} ${user.lastName}`;\n// Step 1: Visit home page\ncy.visit(\"/\");\nhome.getMainBanner().should(\"be.visible\");\n// Step 2–6: Register user\nhome.getSignupLoginButton().click();\nauth.fillSignupNameEmail(user.fullName, user.email);\nauth.submitSignup();\nauth.fillAccountInformation(user);\nauth.submitCreateAccount();\nauth.getAccountCreatedTitle().should(\"be.visible\");\nauth.clickContinueAfterAccountAction();\naccount.getLoggedInAs(user.fullName).should(\"be.visible\");\n// Step 7–10: Add product to cart\nhome.getProductsButton().click();\nproducts.verifyAllProductsPage();\nproducts.addProductToCartByIndex(0);\nproducts.clickViewCart();\ncart.verifyCartPageVisible();\n// Step 11–13: Checkout + verify addresses\ncart.clickProceedToCheckout();\ncheckout.verifyAddressDetails(user);\n// Step 14–15: Delete account\naccount.getDeleteAccountButton().click();\naccount.getAccountDeletedTitle().should(\"be.visible\");\nauth.clickContinueAfterAccountAction();",
+              "err": {},
+              "uuid": "2500ff49-5e9c-4ebc-869a-fc0de163ff86",
+              "parentUUID": "75c3dd54-01be-4352-a750-db0a2b5a87db",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "2500ff49-5e9c-4ebc-869a-fc0de163ff86"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 20345,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "results/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.0"
+    }
+  }
+}

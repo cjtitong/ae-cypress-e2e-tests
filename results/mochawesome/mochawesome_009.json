@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-21T21:34:38.518Z",
+    "end": "2025-09-21T21:35:07.016Z",
+    "duration": 28498,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "61760f49-3c2f-42ea-a028-bf6742369261",
+      "title": "",
+      "fullFile": "cypress\\e2e\\checkout\\TC24_download_invoice.cy.js",
+      "file": "cypress\\e2e\\checkout\\TC24_download_invoice.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "8952d566-9fa2-4da0-bf0a-219aaa1b9d19",
+          "title": "TC24 - Download Invoice after purchase order",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should place order, download invoice, and delete account",
+              "fullTitle": "TC24 - Download Invoice after purchase order Should place order, download invoice, and delete account",
+              "timedOut": null,
+              "duration": 28446,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const home = new _HomePage.default();\nconst products = new _ProductsPage.default();\nconst cart = new _CartPage.default();\nconst auth = new _AuthPage.default();\nconst account = new _AccountPage.default();\nconst checkout = new _CheckoutPage.default();\nconst payment = new _PaymentPage.default();\nconst user = {\n  title: \"Mr\",\n  name: _faker.faker.person.firstName(),\n  email: _faker.faker.internet.email(),\n  password: \"Test@1234\",\n  day: \"15\",\n  month: \"8\",\n  year: \"1994\",\n  firstName: _faker.faker.person.firstName(),\n  lastName: _faker.faker.person.lastName(),\n  company: \"Invoice Co\",\n  address1: \"789 Invoice St\",\n  address2: \"Unit 24\",\n  country: \"Canada\",\n  state: \"Ontario\",\n  city: \"Toronto\",\n  zipcode: \"9000\",\n  mobileNumber: \"09173334444\"\n};\n// Step 1: Visit home page\ncy.visit(\"/\");\nhome.getMainBanner().should(\"be.visible\");\n// Step 2–4: Add product to cart\nhome.getProductsButton().click();\nproducts.verifyAllProductsPage();\ncart.addProductToCartByIndex(0);\ncart.verifyCartPageVisible();\n// Step 5–7: Checkout → register\ncart.clickProceedToCheckout();\ncheckout.clickRegisterLogin();\nauth.fillSignupNameEmail(user.name, user.email);\nauth.submitSignup();\nauth.fillAccountInformation(user);\nauth.submitCreateAccount();\nauth.getAccountCreatedTitle().should(\"be.visible\");\nauth.clickContinueAfterAccountAction();\n// Step 8: Confirm logged in\naccount.getLoggedInAs(user.name).should(\"be.visible\");\n// Step 9–10: Go to cart → checkout again\ncart.clickCartTopNav();\ncart.clickProceedToCheckout();\n// Step 11: Verify addresses + review order\ncheckout.verifyAddressDetails(user);\ncheckout.verifyReviewOrder();\n// Step 12–14: Place order\ncheckout.fillOrderComment(\"Please send invoice\");\ncheckout.clickPlaceOrder();\npayment.fillPaymentDetails({\n  name: `${user.firstName} ${user.lastName}`,\n  cardNumber: \"4111111111111111\",\n  cvc: \"123\",\n  expiryMonth: \"12\",\n  expiryYear: \"2030\"\n});\npayment.submitPayment();\npayment.verifyPaymentSuccess();\n// Step 15–16: Download invoice & verify file\ncheckout.downloadInvoice();\ncheckout.verifyInvoiceDownloaded(user, \"500\");\n// Step 17: Continue after invoice\npayment.clickContinueAfterOrder();\n// Step 18–19: Delete account\naccount.getDeleteAccountButton().click();\naccount.getAccountDeletedTitle().should(\"be.visible\");\nauth.clickContinueAfterAccountAction();",
+              "err": {},
+              "uuid": "d46d3354-c92d-42da-a0c6-5e4b0fc35b7e",
+              "parentUUID": "8952d566-9fa2-4da0-bf0a-219aaa1b9d19",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "d46d3354-c92d-42da-a0c6-5e4b0fc35b7e"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 28446,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "results/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.0"
+    }
+  }
+}

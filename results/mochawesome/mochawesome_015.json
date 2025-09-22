@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-21T21:35:54.580Z",
+    "end": "2025-09-21T21:36:02.013Z",
+    "duration": 7433,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "2a57156b-fdbd-4f94-b37d-3d031eff2271",
+      "title": "",
+      "fullFile": "cypress\\e2e\\products\\TC21_product_review.cy.js",
+      "file": "cypress\\e2e\\products\\TC21_product_review.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "aa42e124-70ac-4454-9c9d-f86672fdfd1f",
+          "title": "TC21 - Add Review on Product",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should submit a product review",
+              "fullTitle": "TC21 - Add Review on Product Should submit a product review",
+              "timedOut": null,
+              "duration": 7388,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"/\");\nhome.getProductsButton().click();\nproducts.verifyAllProductsPage();\n// Step 5: View first product\ncy.get(products.productCards).first().contains(\"View Product\").click();\nproducts.verifyProductDetailVisible();\n// Step 6: Verify review form\ncy.contains(\"Write Your Review\").should(\"be.visible\");\n// Step 7: Enter details\nproducts.fillReviewForm({\n  name: \"Tester\",\n  email: \"tester@example.com\",\n  review: \"Great product, good quality!\"\n});\n// Step 8: Submit\nproducts.submitReview();\n// Step 9: Verify success\ncy.contains(\"Thank you for your review.\").should(\"be.visible\");",
+              "err": {},
+              "uuid": "d7784b4b-5daa-48bd-9588-7069f99e7c77",
+              "parentUUID": "aa42e124-70ac-4454-9c9d-f86672fdfd1f",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "d7784b4b-5daa-48bd-9588-7069f99e7c77"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 7388,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "results/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.0"
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-21T21:32:10.875Z",
+    "end": "2025-09-21T21:32:27.390Z",
+    "duration": 16515,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "5016bebc-94f8-4155-a739-d3284bc76773",
+      "title": "",
+      "fullFile": "cypress\\e2e\\auth\\TC05_register_existinguser.cy.js",
+      "file": "cypress\\e2e\\auth\\TC05_register_existinguser.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "de41104a-22f3-4e49-b8c0-16ced91fb1e3",
+          "title": "TC05 - Register User with existing email",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should show error when trying to sign up with already registered email",
+              "fullTitle": "TC05 - Register User with existing email Should show error when trying to sign up with already registered email",
+              "timedOut": null,
+              "duration": 16479,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const home = new _HomePage.default();\nconst auth = new _AuthPage.default();\n// --- Generate random user ---\nconst user = {\n  name: _faker.faker.person.firstName() + ' ' + _faker.faker.person.lastName(),\n  email: _faker.faker.internet.email(),\n  password: _faker.faker.internet.password(),\n  day: '15',\n  month: '6',\n  year: '1995',\n  firstName: _faker.faker.person.firstName(),\n  lastName: _faker.faker.person.lastName(),\n  company: _faker.faker.company.name(),\n  address1: _faker.faker.location.streetAddress(),\n  address2: _faker.faker.location.secondaryAddress(),\n  country: 'Canada',\n  state: _faker.faker.location.state(),\n  city: _faker.faker.location.city(),\n  zipcode: _faker.faker.location.zipCode(),\n  mobileNumber: _faker.faker.phone.number()\n};\n// --- Step 1: Register user first ---\ncy.visit('/');\nhome.getMainBanner().should('be.visible');\nhome.getSignupLoginButton().click();\nauth.getNewUserSignupTitle().should('be.visible');\nauth.fillSignupNameEmail(user.name, user.email);\nauth.submitSignup();\nauth.fillAccountInformation(user);\nauth.submitCreateAccount();\nauth.getAccountCreatedTitle().should('be.visible');\nauth.getContinueButton().click();\ncy.contains(`Logged in as ${user.name}`, {\n  timeout: 15000\n}).should('be.visible');\n// Logout so we can access signup again\ncy.get('a[href=\"/logout\"]').click();\nauth.getLoginTitle().should('be.visible');\n// --- Step 2: Try registering again with the same email ---\nauth.getNewUserSignupTitle().should('be.visible');\nauth.fillSignupNameEmail(user.name, user.email);\nauth.submitSignup();\n// --- Step 3: Verify error message via page object ---\nauth.getSignupError().should('be.visible');",
+              "err": {},
+              "uuid": "49dc22cb-90f3-45d4-8b2e-0408a26a5f4d",
+              "parentUUID": "de41104a-22f3-4e49-b8c0-16ced91fb1e3",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "49dc22cb-90f3-45d4-8b2e-0408a26a5f4d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 16479,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "results/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.0"
+    }
+  }
+}

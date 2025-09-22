@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-21T21:35:18.003Z",
+    "end": "2025-09-21T21:35:24.578Z",
+    "duration": 6575,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "e8eb1570-3cbf-4f11-b8e8-5e5157073f53",
+      "title": "",
+      "fullFile": "cypress\\e2e\\products\\TC09_search_product.cy.js",
+      "file": "cypress\\e2e\\products\\TC09_search_product.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "925b9915-d576-4b5d-8c22-348409636e0c",
+          "title": "TC09 - Search Product",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should search and display related products",
+              "fullTitle": "TC09 - Search Product Should search and display related products",
+              "timedOut": null,
+              "duration": 6497,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"/\");\nhome.getMainBanner().should(\"be.visible\");\nhome.getProductsButton().click();\nproducts.verifyAllProductsPage();\nconst keyword = \"dress\";\nproducts.searchProduct(keyword);\n// Step 7: Verify searched products section\nproducts.verifySearchedProductsVisible();\n// Step 8: Verify products match keyword\nproducts.verifySearchResultsContain(keyword);",
+              "err": {},
+              "uuid": "e27afc87-7bcd-4413-9ff7-cb6ef4d633da",
+              "parentUUID": "925b9915-d576-4b5d-8c22-348409636e0c",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "e27afc87-7bcd-4413-9ff7-cb6ef4d633da"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 6497,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "results/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.0"
+    }
+  }
+}

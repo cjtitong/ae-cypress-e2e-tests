@@ -10,7 +10,7 @@ jobs:
   - job: SelfHosted
     displayName: "Run on self-hosted agent (AgentToken)"
     pool:
-      name: Default   # Pool where AgentToken is registered
+      name: Default
       demands:
         - agent.name -equals AgentToken
     steps:
@@ -25,14 +25,13 @@ jobs:
         displayName: 'Install dependencies & run Cypress tests'
       - task: PublishBuildArtifacts@1
         inputs:
-          pathToPublish: 'cypress/results'   # updated folder
+          pathToPublish: 'results'
           artifactName: 'cypress-results'
-        condition: succeededOrFailed()       # always publish artifacts
 
   - job: FallbackToHosted
     displayName: "Run on Microsoft-hosted (ubuntu-latest) if self-hosted fails"
     dependsOn: SelfHosted
-    condition: failed()   # only runs if SelfHosted fails
+    condition: failed()
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -47,6 +46,5 @@ jobs:
         displayName: 'Install dependencies & run Cypress tests (Fallback)'
       - task: PublishBuildArtifacts@1
         inputs:
-          pathToPublish: 'cypress/results'   # updated folder
+          pathToPublish: 'results'
           artifactName: 'cypress-results'
-        condition: succeededOrFailed()       # always publish artifacts

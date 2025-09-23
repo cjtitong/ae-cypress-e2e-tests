@@ -1,59 +1,38 @@
-name: Cypress Tests + Trigger Azure Pipeline
+name: Cypress Tests
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  cypress-tests:
+  cypress-run:
     runs-on: ubuntu-latest
-    env:
-      CYPRESS_baseUrl: 'https://automationexercise.com'
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: '18'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Run Cypress tests
         run: npm run test:ci
-        continue-on-error: false # Set to true if you want Azure trigger even on failure
 
       - name: Upload Cypress artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
-          name: cypress-artifacts
-          path: |
-            cypress/screenshots
-            cypress/videos
-            results/mochawesome/html
-            results/*.xml
+          name: cypress-results
+          path: results
 
-  trigger-azure-pipeline:
-    needs: cypress-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Azure DevOps Pipeline via PAT
+      - name: Trigger Azure DevOps Pipeline
         env:
-          AZURE_ORG_URL: https://dev.azure.com/cjtitong868
-          AZURE_PROJECT: ae-cypress-e2e-tests
-          AZURE_PIPELINE_ID: 2
-          AZURE_PAT: ${{ secrets.AZURE_DEVOPS_PAT }}
-        run: |
-          echo "Triggering Azure DevOps pipeline..."
-          curl -s -u :$AZURE_PAT \
-            -X POST \
-            -H "Content-Type: application/json" \
-            -d "{\"resources\": {\"repositories\": {\"self\": {\"refName\": \"refs/heads/main\"}}}}" \
-            $AZURE_ORG_URL/$AZURE_PROJECT/_apis/pipelines/$AZURE_PIPELINE_ID/runs?api-version=7.1-preview.1
+          AZURE_DEVOPS_ORG: ${{ secrets.AZURE_DEVOPS_ORG }}
+          AZURE_DEVOPS_PROJECT: ${{ secrets.AZURE_DEVOPS_PROJECT }}
+          AZURE_PIPELINE_ID: ${{ secrets.AZURE_PIPELINE_ID }}
+          AZURE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZURE_PERSONAL_ACCESS_TOKEN }}
+        run: npm run trigger:azure

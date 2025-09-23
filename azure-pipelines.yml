@@ -8,7 +8,7 @@ variables:
 
 jobs:
   - job: SelfHosted
-    displayName: "Run on self-hosted agent (AgentToken)"
+    displayName: "Run on self-hosted agent"
     pool:
       name: Default
       demands:
@@ -32,8 +32,8 @@ jobs:
           pathToPublish: 'results'
           artifactName: 'cypress-results'
 
-  - job: FallbackToHosted
-    displayName: "Run on Microsoft-hosted (ubuntu-latest) if self-hosted fails"
+  - job: HostedFallback
+    displayName: "Run on Microsoft-hosted agent if self-hosted fails"
     dependsOn: SelfHosted
     condition: failed()
     pool:
@@ -44,13 +44,13 @@ jobs:
       - task: NodeTool@0
         inputs:
           versionSpec: '18.x'
-        displayName: 'Setup Node.js (Fallback)'
+        displayName: 'Setup Node.js'
 
       - script: |
           npm ci
           mkdir -p results/mochawesome
           npm run test:ci
-        displayName: 'Install dependencies & run Cypress tests (Fallback)'
+        displayName: 'Install dependencies & run Cypress tests'
 
       - task: PublishBuildArtifacts@1
         inputs:

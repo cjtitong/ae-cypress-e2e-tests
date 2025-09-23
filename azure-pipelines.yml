@@ -15,15 +15,18 @@ jobs:
         - agent.name -equals AgentToken
     steps:
       - checkout: self
+
       - task: NodeTool@0
         inputs:
           versionSpec: '18.x'
         displayName: 'Setup Node.js'
+
       - script: |
           npm ci
-          node -e "require('fs').mkdirSync('results/mochawesome', { recursive: true })"
+          if [ ! -d "results/mochawesome" ]; then mkdir -p results/mochawesome; fi
           npm run test:ci
         displayName: 'Install dependencies & run Cypress tests'
+
       - task: PublishBuildArtifacts@1
         inputs:
           pathToPublish: 'results'
@@ -37,15 +40,18 @@ jobs:
       vmImage: 'ubuntu-latest'
     steps:
       - checkout: self
+
       - task: NodeTool@0
         inputs:
           versionSpec: '18.x'
         displayName: 'Setup Node.js (Fallback)'
+
       - script: |
           npm ci
-          node -e "require('fs').mkdirSync('results/mochawesome', { recursive: true })"
+          mkdir -p results/mochawesome
           npm run test:ci
         displayName: 'Install dependencies & run Cypress tests (Fallback)'
+
       - task: PublishBuildArtifacts@1
         inputs:
           pathToPublish: 'results'

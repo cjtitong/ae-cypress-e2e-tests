@@ -27,7 +27,3 @@ yarn-error.log*
 .idea/
 .DS_Store
 Thumbs.db
-
-# Optional: lock files if you want to ignore
-package-lock.json
-yarn.lock

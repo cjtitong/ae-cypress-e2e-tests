@@ -21,6 +21,7 @@ jobs:
         displayName: 'Setup Node.js'
       - script: |
           npm ci
+          mkdir -p results/mochawesome
           npm run test:ci
         displayName: 'Install dependencies & run Cypress tests'
       - task: PublishBuildArtifacts@1
@@ -42,6 +43,7 @@ jobs:
         displayName: 'Setup Node.js (Fallback)'
       - script: |
           npm ci
+          mkdir -p results/mochawesome
           npm run test:ci
         displayName: 'Install dependencies & run Cypress tests (Fallback)'
       - task: PublishBuildArtifacts@1
